@@ -1,5 +1,6 @@
 import micro, {json} from 'micro'
 import { router, get, post, put, del } from 'microrouter'
+const cors = require('micro-cors')()
 
 import Datastore from 'nedb-promise' 
   const db = new Datastore({ filename: 'contacts.db', autoload: true })
@@ -7,7 +8,7 @@ import Datastore from 'nedb-promise'
 
 
 
-const server = micro(
+const server = micro(cors(
     router(
       get('/', async (req, res) => {
         console.log('Got')
@@ -35,6 +36,7 @@ const server = micro(
         return body
       }),
     ),
+)  
   )
   
   server.listen(4000, () => console.log(`Server started!`))
